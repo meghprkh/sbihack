@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+  <title>Hello from Flask</title>
+</head>
+<body style="height: 100%; width: 100%">
+  <div id="camera" style="height: 100%; width: 100%">
+    <div class="placeholder">
+      Your browser does not support camera access.<br>
+    </div>
+  </div>
+  <script src="{{ url_for('static', filename='js/jpeg_camera_with_dependencies.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
