@@ -1,5 +1,6 @@
 var camera = new JpegCamera("#camera");
 
-var snapshot = camera.capture();
-
-snapshot.show(); // Display the snapshot
+window.setInterval(function() {
+  var snapshot = camera.capture();
+  snapshot.upload({ api_url: '/upload' })
+}, 500)
