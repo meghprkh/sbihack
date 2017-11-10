@@ -2,7 +2,7 @@
 <html>
 <head>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
-  <title>Hello from Flask</title>
+  <title>Register</title>
 </head>
 <body style="height: 100%; width: 100%">
   <div id="camera" style="height: 100%; width: 100%">
@@ -10,11 +10,14 @@
       Your browser does not support camera access.<br>
     </div>
   </div>
+  <button id="bottom-button" onclick="register()">
+    Register
+  </button>
   <script
       src="https://code.jquery.com/jquery-3.2.1.min.js"
       integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
       crossorigin="anonymous"></script>
   <script src="{{ url_for('static', filename='js/jpeg_camera_with_dependencies.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/register.js') }}"></script>
 </body>
 </html>
