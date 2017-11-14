@@ -1,17 +1,21 @@
 var uid;
 var camera = new JpegCamera("#camera").ready(function () {
 
-window.setInterval(function() {
+var int = window.setInterval(function() {
   var snapshot = camera.capture();
   snapshot.upload({ api_url: '/upload' })
           .done(function (data) {
             data = JSON.parse(data)
-            if (!data.success) $.get('/start_auth/' + uid)
-            if (data.success && data.done) {
+            if (!data.status) {
+              console.log('abc')
+              $.get('/start_auth/' + uid)
+            }
+            if (data.status && data.done) {
               alert('Authenticated!')
+              window.clearInterval(int)
             }
           })
-}, 500)
+}, 300)
 
 });
 

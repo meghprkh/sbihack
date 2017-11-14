@@ -13,13 +13,13 @@ np.set_printoptions(precision=2)
 import openface
 
 fileDir = os.path.dirname(os.path.realpath(__file__))
-modelDir = os.path.join(fileDir, '..', 'models')
+modelDir = os.path.join(fileDir, '/root/openface', 'models')
 dlibModelDir = os.path.join(modelDir, 'dlib')
 openfaceModelDir = os.path.join(modelDir, 'openface')
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('imgs', type=str, nargs='+', help="Input images.")
+# parser.add_argument('imgs', type=str, nargs='+', help="Input images.")
 parser.add_argument('--dlibFacePredictor', type=str, help="Path to dlib's face predictor.",
                     default=os.path.join(dlibModelDir, "shape_predictor_68_face_landmarks.dat"))
 parser.add_argument('--networkModel', type=str, help="Path to Torch network model.",
@@ -33,10 +33,14 @@ start = time.time()
 align = openface.AlignDlib(args.dlibFacePredictor)
 net = openface.TorchNeuralNet(args.networkModel, args.imgDim)
 
-def get_features(impath):
+def get_features(imgPath):
     bgrImg = cv2.imread(imgPath)
     if bgrImg is None:
         raise Exception("Unable to load image: {}".format(imgPath))
+    return get_features_np(bgrImg)
+
+def get_features_np(bgrImg):
+    imgPath = 'ch'
     rgbImg = cv2.cvtColor(bgrImg, cv2.COLOR_BGR2RGB)
 
     bb = align.getLargestFaceBoundingBox(rgbImg)
@@ -54,19 +58,20 @@ def get_features(impath):
 def do_faces_match(imfeatures1, imfeatures2):
     d = imfeatures1 - imfeatures2
     d = np.dot(d, d)
-   	return d <= 1
+    return d <= 1
 
 def is_alive(imfeaturesprev, imfeaturesnew):
-    pass
+    d = imfeaturesnew - imfeaturesprev
+    d = np.dot(d, d)
+    return d
 
-orig = get_features(retrieved_image)
-start = time.time()
-cnt_match, cnt_total = 0, 0
-while 1:
-	if(time.time() - start > 1):
-		start = time.time()
-		new = get_features('img104_656_276.jpg')
-		if(do_faces_match(orig, new) == 1):
-			cnt_match += 1
-		cnt_total += 1
-
+# orig = get_features(retrieved_image)
+# start = time.time()
+# cnt_match, cnt_total = 0, 0
+# while 1:
+# 	if(time.time() - start > 1):
+# 		start = time.time()
+# 		new = get_features('img104_656_276.jpg')
+# 		if(do_faces_match(orig, new) == 1):
+# 			cnt_match += 1
+# 		cnt_total += 1
