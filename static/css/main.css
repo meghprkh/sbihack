@@ -9,8 +9,20 @@ html, body {
 #bottom-button {
   position: absolute;
   bottom: 5%;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
   margin: 0 auto;
   z-index: 2;
+}
+
+.topbar {
+  position: absolute;
+  display: block;
+  width: 100%;
+  background-color: #9b4dca;
+  color: #fff;
+  text-align: center;
+  font-size: 2rem;
+  padding-bottom: 1rem;
+  z-index: 5;
 }

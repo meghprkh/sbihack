@@ -7,7 +7,11 @@ app.secret_key = 'any random string'
 
 @app.route("/")
 def hello():
-    return render_template('capture.html', name='name')
+    return render_template('main.html')
+
+@app.route("/login")
+def login():
+    return render_template('capture.html')
 
 @app.route("/register")
 def register():

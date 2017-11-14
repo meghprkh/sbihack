@@ -15,7 +15,7 @@ var int = window.setInterval(function() {
               window.clearInterval(int)
             }
           })
-}, 300)
+}, 2000)
 
 });
 

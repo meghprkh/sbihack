@@ -1,10 +1,15 @@
 <!doctype html>
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
   <title>Hello from Flask</title>
 </head>
 <body style="height: 100%; width: 100%">
+  <div class="topbar">
+    Please look at the camera and move slightly
+  </div>
   <div id="camera" style="height: 100%; width: 100%">
     <div class="placeholder">
       Your browser does not support camera access.<br>
