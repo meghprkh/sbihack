@@ -6,4 +6,4 @@ RUN \
   cd /megh && \
   pip install -r requirements.txt
 
-CMD python /megh/app.py
+CMD cd /megh && python app.py

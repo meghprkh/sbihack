@@ -1,10 +1,14 @@
 var uid;
+var uploaded = true;
 var camera = new JpegCamera("#camera").ready(function () {
 
 var int = window.setInterval(function() {
+  if (!uploaded) return;
+  uploaded = false;
   var snapshot = camera.capture();
   snapshot.upload({ api_url: '/upload' })
           .done(function (data) {
+            uploaded = true;
             data = JSON.parse(data)
             if (!data.status) {
               console.log('abc')
@@ -14,8 +18,10 @@ var int = window.setInterval(function() {
               alert('Authenticated!')
               window.clearInterval(int)
             }
+          }).fail(function (err) {
+            uploaded = true;
           })
-}, 2000)
+}, 1000)
 
 });
 

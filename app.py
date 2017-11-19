@@ -1,9 +1,22 @@
 from ml import get_features, get_features_np, do_faces_match, is_alive
 import numpy as np
 import cv2
-from flask import Flask, render_template, request, session, jsonify
+from flask import Flask, render_template, request, session, jsonify, g
 app = Flask(__name__)
 app.secret_key = 'any random string'
+
+def after_this_request(func):
+    if not hasattr(g, 'call_after_request'):
+        g.call_after_request = []
+    g.call_after_request.append(func)
+    return func
+
+
+@app.after_request
+def per_request_callbacks(response):
+    for func in getattr(g, 'call_after_request', ()):
+        response = func(response)
+    return response
 
 @app.route("/")
 def hello():
@@ -17,8 +30,8 @@ def login():
 def register():
     return render_template('register.html')
 
-@app.route("/start_register", methods=["POST"])
-def start_register(uid):
+@app.route("/start_register/", methods=["POST"])
+def start_register():
     uid = request.form['uid']
     # pwd = request.form['pwd']
     session['uid'] = uid
@@ -42,11 +55,17 @@ def start_auth(uid):
 
 @app.route("/upload", methods=["POST"])
 def upload():
+    @after_this_request
+    def delete_username_cookie(response):
+        print(response.data)
+        return response
     uid = session['uid']
-    impath = "img%s.jpg" % uid
+    impath = "img%s-%d.jpg" % (uid, session['frame_count'])
     data = request.get_data(cache=False)
     imarr = np.asarray(bytearray(data), dtype=np.uint8)
     img = cv2.imdecode(imarr, cv2.IMREAD_UNCHANGED)
+    cv2.imwrite(impath, img)
+    impath = "img%s.jpg" % (uid)
     features = get_features_np(img)
     actual_features = get_features("r" + impath)
     success = do_faces_match(actual_features, features)
